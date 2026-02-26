@@ -310,4 +310,58 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
         });
     }
+    // ---- FAQ Accordion ----
+    const faqTriggers = document.querySelectorAll('.faq-trigger');
+    faqTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const item   = trigger.closest('.faq-item');
+            const answer = item.querySelector('.faq-answer');
+            const icon   = trigger.querySelector('.faq-icon svg');
+            const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+            // Close all other open items first (accordion behaviour)
+            faqTriggers.forEach(otherTrigger => {
+                if (otherTrigger !== trigger) {
+                    const otherItem   = otherTrigger.closest('.faq-item');
+                    const otherAnswer = otherItem.querySelector('.faq-answer');
+                    const otherIcon   = otherTrigger.querySelector('.faq-icon svg');
+                    otherAnswer.style.maxHeight = '0px';
+                    otherTrigger.setAttribute('aria-expanded', 'false');
+                    otherIcon.style.transform = 'rotate(0deg)';
+                    otherItem.classList.remove('border-brand-500/50');
+                }
+            });
+
+            if (isOpen) {
+                answer.style.maxHeight = '0px';
+                trigger.setAttribute('aria-expanded', 'false');
+                icon.style.transform = 'rotate(0deg)';
+                item.classList.remove('border-brand-500/50');
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                trigger.setAttribute('aria-expanded', 'true');
+                icon.style.transform = 'rotate(45deg)'; // + becomes x
+                item.classList.add('border-brand-500/50');
+            }
+        });
+    });
+
+    // GSAP scroll-reveal for FAQ items
+    if (document.querySelector('.faq-item')) {
+        gsap.fromTo('.faq-item',
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.55,
+                stagger: 0.09,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '#faq',
+                    start: 'top 75%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    }
 });

@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Releases | Routiq - Version History & Changelog</title>
+    <meta name="description"
+        content="Stay up-to-date with every Routiq release. Explore new features, improvements, and bug fixes across all versions of the Routiq app.">
+
+    <!-- ─── CONFIGURATION ────────────────────────────────────────────────
+         Replace SANITY_PROJECT_ID with the value from sanity.io/manage
+         Replace SANITY_DATASET if you are not using "production"
+         SANITY_TOKEN: only needed if your dataset is private.
+                       For a public dataset leave it as empty string ''.
+    ────────────────────────────────────────────────────────────────────── -->
+    <script>
+        window.SANITY_CONFIG = {
+            projectId: 'YOUR_PROJECT_ID',   // ← replace
+            dataset: 'production',          // ← replace if different
+            apiVersion: '2024-01-01',
+            token: '',                         // ← add viewer token if dataset is private
+        };
+    </script>
+
+    <!-- Handle Theme on Load -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' ||
+            (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#f5f3ff', 100: '#ede9fe', 400: '#a78bfa', 500: '#8b5cf6', 600: '#7c3aed', 900: '#4c1d95' },
+                        dark: { DEFAULT: '#0f172a', lighter: '#1e293b' },
+                        light: { DEFAULT: '#f8fafc', surface: '#ffffff' },
+                    },
+                    fontFamily: {
+                        sans: ['"Instrument Sans"', 'sans-serif'],
+                        inter: ['"Instrument Sans"', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ── Animations ───────────────────────────── */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-slide-up {
+            opacity: 0;
+            animation: fadeSlideUp 0.6s ease forwards;
+        }
+
+        .delay-100 {
+            animation-delay: .10s;
+        }
+
+        .delay-200 {
+            animation-delay: .20s;
+        }
+
+        .delay-300 {
+            animation-delay: .30s;
+        }
+
+        @keyframes pulse-badge {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, .5);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(139, 92, 246, 0);
+            }
+        }
+
+        .badge-pulse {
+            animation: pulse-badge 2.5s ease infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(250%);
+            }
+        }
+
+        /* ── Layout helpers ───────────────────────── */
+        .release-card {
+            transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+        }
+
+        .release-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .55s ease, transform .55s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Tag pills ────────────────────────────── */
+        .tag-new {
+            background: rgba(139, 92, 246, .12);
+            color: #8b5cf6;
+            border-color: rgba(139, 92, 246, .25);
+        }
+
+        .tag-fix {
+            background: rgba(34, 197, 94, .12);
+            color: #16a34a;
+            border-color: rgba(34, 197, 94, .25);
+        }
+
+        .tag-improvement {
+            background: rgba(59, 130, 246, .12);
+            color: #2563eb;
+            border-color: rgba(59, 130, 246, .25);
+        }
+
+        .tag-performance {
+            background: rgba(234, 179, 8, .12);
+            color: #b45309;
+            border-color: rgba(234, 179, 8, .25);
+        }
+
+        .tag-breaking {
+            background: rgba(239, 68, 68, .12);
+            color: #dc2626;
+            border-color: rgba(239, 68, 68, .25);
+        }
+
+        .dark .tag-new {
+            color: #a78bfa;
+            border-color: rgba(167, 139, 250, .3);
+        }
+
+        .dark .tag-fix {
+            color: #4ade80;
+            border-color: rgba(74, 222, 128, .3);
+        }
+
+        .dark .tag-improvement {
+            color: #60a5fa;
+            border-color: rgba(96, 165, 250, .3);
+        }
+
+        .dark .tag-performance {
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, .3);
+        }
+
+        .dark .tag-breaking {
+            color: #f87171;
+            border-color: rgba(248, 113, 113, .3);
+        }
+
+        /* ── Filter pills ─────────────────────────── */
+        .filter-btn {
+            transition: all .2s ease;
+        }
+
+        .filter-btn.active {
+            background: #8b5cf6;
+            color: #fff;
+            border-color: #8b5cf6;
+        }
+
+        /* ── Download bar ─────────────────────────── */
+        .download-bar {
+            border-top: 1px solid rgb(241 245 249);
+        }
+
+        .dark .download-bar {
+            border-color: rgb(30 41 59);
+        }
+
+        /* Primary download buttons (latest) */
+        .dl-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .55rem 1.1rem;
+            border-radius: 9999px;
+            font-size: .8rem;
+            font-weight: 700;
+            transition: transform .2s ease, box-shadow .2s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+        }
+
+        .dl-btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .dl-btn-primary:active {
+            transform: scale(.97);
+        }
+
+        .dl-btn-primary:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .dl-android {
+            background: linear-gradient(135deg, #3ddc84, #00c853);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(61, 220, 132, .35);
+        }
+
+        .dl-android:hover {
+            box-shadow: 0 6px 20px rgba(61, 220, 132, .5);
+        }
+
+        .dl-ios {
+            background: linear-gradient(135deg, #555, #111);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+        }
+
+        .dark .dl-ios {
+            background: linear-gradient(135deg, #94a3b8, #64748b);
+        }
+
+        .dl-ios:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .4);
+        }
+
+        .dl-source {
+            background: transparent;
+            color: #8b5cf6;
+            border: 1.5px solid rgba(139, 92, 246, .35) !important;
+            box-shadow: none;
+        }
+
+        .dl-source:hover {
+            background: rgba(139, 92, 246, .08);
+            border-color: #8b5cf6 !important;
+        }
+
+        .dark .dl-source {
+            color: #a78bfa;
+            border-color: rgba(167, 139, 250, .35) !important;
+        }
+
+        .dark .dl-source:hover {
+            background: rgba(167, 139, 250, .1);
+            border-color: #a78bfa !important;
+        }
+
+        /* Archive buttons */
+        .dl-btn-archive {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            padding: .45rem .95rem;
+            border-radius: 9999px;
+            font-size: .78rem;
+            font-weight: 600;
+            background: transparent;
+            border: 1.5px solid rgb(203 213 225);
+            color: rgb(100 116 139);
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .dl-btn-archive:hover {
+            border-color: #8b5cf6;
+            color: #8b5cf6;
+            background: rgba(139, 92, 246, .06);
+        }
+
+        .dl-btn-archive:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .dark .dl-btn-archive {
+            border-color: rgb(51 65 85);
+            color: rgb(148 163 184);
+        }
+
+        .dark .dl-btn-archive:hover {
+            border-color: #a78bfa;
+            color: #a78bfa;
+            background: rgba(167, 139, 250, .08);
+        }
+
+        /* Coming-soon badges */
+        .dl-btn-coming-soon {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            padding: .45rem .95rem;
+            border-radius: 9999px;
+            font-size: .78rem;
+            font-weight: 600;
+            background: transparent;
+            border: 1.5px dashed rgb(203 213 225);
+            color: rgb(148 163 184);
+            cursor: not-allowed;
+            user-select: none;
+        }
+
+        .dark .dl-btn-coming-soon {
+            border-color: rgb(51 65 85);
+            color: rgb(71 85 105);
+        }
+
+        .dl-btn-coming-soon .cs-badge {
+            font-size: .58rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            padding: .1rem .5rem;
+            border-radius: 9999px;
+            background: rgba(139, 92, 246, .1);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, .2);
+        }
+
+        .dark .dl-btn-coming-soon .cs-badge {
+            color: #a78bfa;
+            background: rgba(167, 139, 250, .1);
+            border-color: rgba(167, 139, 250, .2);
+        }
+
+        /* Shimmer on download click */
+        .dl-shimmer::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, .35) 50%, transparent 100%);
+            animation: shimmer .8s ease 1;
+        }
+
+        /* ── Skeleton loader ──────────────────────── */
+        @keyframes skeletonPulse {
+
+            0%,
+            100% {
+                opacity: .5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .skeleton {
+            background: rgb(226 232 240);
+            border-radius: .5rem;
+            animation: skeletonPulse 1.5s ease infinite;
+        }
+
+        .dark .skeleton {
+            background: rgb(30 41 59);
+        }
+
+        /* ── Error / empty state ──────────────────── */
+        #error-state,
+        #empty-state {
+            display: none;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-light text-slate-800 dark:bg-dark dark:text-slate-200 antialiased overflow-x-hidden selection:bg-brand-500 selection:text-white transition-colors duration-300">
+
+    <!-- ══ NAVBAR ══════════════════════════════════ -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 py-4" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <img src="routiq-icon.png" alt="Routiq Logo" class="w-14 h-14 object-contain drop-shadow-md" />
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html#features"
+                    class="text-slate-600 dark:text-slate-300 hover:text-brand-500 transition-colors font-medium">Features</a>
+                <a href="index.html#how-it-works"
+                    class="text-slate-600 dark:text-slate-300 hover:text-brand-500 transition-colors font-medium">How it
+                    Works</a>
+                <a href="index.html#faq"
+                    class="text-slate-600 dark:text-slate-300 hover:text-brand-500 transition-colors font-medium">FAQ</a>
+                <a href="releases.html"
+                    class="text-brand-500 font-semibold border-b-2 border-brand-500 pb-0.5">Releases</a>
+            </div>
+            <div class="hidden md:flex items-center gap-4">
+                <a href="index.html#"
+                    class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-medium transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(139,92,246,0.4)]">Get
+                    Started</a>
+                <button id="theme-toggle"
+                    class="ml-4 p-2 rounded-full border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-brand-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <button id="mobile-menu-btn"
+                class="md:hidden flex items-center justify-center p-2 text-slate-600 dark:text-slate-300 hover:text-brand-500 rounded-lg focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <div id="mobile-menu"
+            class="md:hidden hidden bg-white dark:bg-dark-lighter border-t border-slate-200 dark:border-slate-800 shadow-xl absolute w-full left-0 mt-2 py-4 px-6 flex flex-col gap-4 opacity-0 transition-opacity duration-300">
+            <a href="index.html#features"
+                class="text-slate-600 dark:text-slate-300 hover:text-brand-500 text-lg font-medium mobile-link">Features</a>
+            <a href="index.html#how-it-works"
+                class="text-slate-600 dark:text-slate-300 hover:text-brand-500 text-lg font-medium mobile-link">How it
+                Works</a>
+            <a href="index.html#faq"
+                class="text-slate-600 dark:text-slate-300 hover:text-brand-500 text-lg font-medium mobile-link">FAQ</a>
+            <a href="releases.html" class="text-brand-500 text-lg font-semibold mobile-link">Releases</a>
+            <div class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-4 mt-2">
+                <span class="text-slate-600 dark:text-slate-300 font-medium">Theme</span>
+                <button id="mobile-theme-toggle"
+                    class="p-2 rounded-full border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-brand-500 bg-slate-50 dark:bg-slate-800 transition-colors">
+                    <svg id="mobile-theme-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="mobile-theme-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <a href="index.html#"
+                class="mt-4 bg-brand-500 hover:bg-brand-600 text-white px-5 py-3 rounded-full font-medium text-center transition-colors shadow-lg shadow-brand-500/30">Get
+                Started</a>
+        </div>
+    </nav>
+
+    <!-- ══ HERO ═════════════════════════════════════ -->
+    <section class="relative pt-36 pb-20 overflow-hidden">
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-brand-500/10 rounded-full blur-[120px] -z-10 pointer-events-none">
+        </div>
+        <div
+            class="absolute top-20 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px] -z-10 pointer-events-none">
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <!-- Live badge — version injected by JS -->
+            <div id="hero-badge"
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-sm font-medium text-brand-100 mb-6 fade-slide-up backdrop-blur-sm">
+                <span class="relative flex h-2 w-2">
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+                </span>
+                <span id="hero-badge-text">Loading latest release…</span>
+            </div>
+
+            <h1
+                class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tighter leading-[1.05] mb-6 fade-slide-up delay-100">
+                Release <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-purple-500">Notes</span>
+            </h1>
+
+            <p
+                class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-inter leading-relaxed fade-slide-up delay-200">
+                Every version tells a story. Here's what we've built, fixed, and shipped — straight from our dev team to
+                your screen.
+            </p>
+
+            <!-- Filter pills -->
+            <div class="mt-10 flex flex-wrap justify-center gap-3 fade-slide-up delay-300" id="filter-container">
+                <button
+                    class="filter-btn active px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-brand-500 hover:text-brand-500"
+                    data-filter="all">All</button>
+                <button
+                    class="filter-btn px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-brand-500 hover:text-brand-500"
+                    data-filter="new">✨ New Features</button>
+                <button
+                    class="filter-btn px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-brand-500 hover:text-brand-500"
+                    data-filter="fix">🐛 Bug Fixes</button>
+                <button
+                    class="filter-btn px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-brand-500 hover:text-brand-500"
+                    data-filter="improvement">🔧 Improvements</button>
+                <button
+                    class="filter-btn px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-brand-500 hover:text-brand-500"
+                    data-filter="performance">⚡ Performance</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ TIMELINE ══════════════════════════════════ -->
+    <main class="max-w-4xl mx-auto px-6 pb-32" id="releases-container">
+
+        <!-- Skeleton loaders shown while fetching -->
+        <div id="skeleton-loader" class="space-y-20">
+            <!-- Skeleton 1 -->
+            <div class="flex items-start gap-6">
+                <div class="hidden md:flex flex-col items-center pt-1 flex-shrink-0">
+                    <div class="skeleton w-4 h-4 rounded-full"></div>
+                    <div class="skeleton w-px flex-1 mt-2 min-h-[180px]"></div>
+                </div>
+                <div class="flex-1 space-y-4">
+                    <div class="skeleton h-8 w-32 rounded-lg"></div>
+                    <div
+                        class="bg-white dark:bg-dark-lighter rounded-3xl border border-slate-200 dark:border-slate-800 p-7 space-y-4">
+                        <div class="skeleton h-6 w-2/3 rounded-lg"></div>
+                        <div class="skeleton h-4 w-full rounded-lg"></div>
+                        <div class="skeleton h-4 w-5/6 rounded-lg"></div>
+                        <div class="skeleton h-4 w-4/6 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Skeleton 2 -->
+            <div class="flex items-start gap-6">
+                <div class="hidden md:flex flex-col items-center pt-1 flex-shrink-0">
+                    <div class="skeleton w-4 h-4 rounded-full"></div>
+                    <div class="skeleton w-px flex-1 mt-2 min-h-[160px]"></div>
+                </div>
+                <div class="flex-1 space-y-4">
+                    <div class="skeleton h-8 w-32 rounded-lg"></div>
+                    <div
+                        class="bg-white dark:bg-dark-lighter rounded-3xl border border-slate-200 dark:border-slate-800 p-7 space-y-4">
+                        <div class="skeleton h-6 w-1/2 rounded-lg"></div>
+                        <div class="skeleton h-4 w-full rounded-lg"></div>
+                        <div class="skeleton h-4 w-3/4 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error state -->
+        <div id="error-state" class="text-center py-20">
+            <div class="text-5xl mb-4">⚠️</div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Couldn't load releases</h3>
+            <p class="text-slate-500 dark:text-slate-400 font-inter mb-6" id="error-message">Unable to connect to Sanity
+                CMS. Check your project ID and dataset.</p>
+            <button onclick="loadReleases()"
+                class="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-full font-medium transition-all">Try
+                Again</button>
+        </div>
+
+        <!-- Empty state -->
+        <div id="empty-state" class="text-center py-20">
+            <div class="text-5xl mb-4">📭</div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">No releases yet</h3>
+            <p class="text-slate-500 dark:text-slate-400 font-inter">Head to your Sanity Studio and create your first
+                release.</p>
+        </div>
+
+        <!-- Release cards injected here by JS -->
+        <div id="releases-list" class="space-y-20 hidden"></div>
+
+        <!-- Upcoming teaser (always visible) -->
+        <div id="upcoming-teaser" class="reveal mt-20 hidden">
+            <div class="flex items-start gap-6">
+                <div class="hidden md:flex flex-col items-center pt-1 flex-shrink-0">
+                    <div
+                        class="w-4 h-4 rounded-full border-2 border-dashed border-slate-300 dark:border-slate-700 flex-shrink-0">
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <div
+                        class="bg-slate-50 dark:bg-dark-lighter/50 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-7">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span
+                                class="text-2xl font-extrabold text-slate-400 dark:text-slate-600 tracking-tight">Next</span>
+                            <span
+                                class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">🔮
+                                Coming Soon</span>
+                        </div>
+                        <p class="text-slate-400 dark:text-slate-500 text-sm font-inter mb-4">We're hard at work on the
+                            next chapter. Here's a sneak peek at what's planned:</p>
+                        <ul class="space-y-2 text-slate-400 dark:text-slate-500 text-sm font-inter">
+                            <li class="flex items-center gap-2"><span class="text-brand-400">◈</span> Social Challenges
+                                — compete with friends on shared habit goals</li>
+                            <li class="flex items-center gap-2"><span class="text-brand-400">◈</span> AI Routine Planner
+                                — smart suggestions based on your past patterns</li>
+                            <li class="flex items-center gap-2"><span class="text-brand-400">◈</span> iOS & Android App
+                                Store launch</li>
+                            <li class="flex items-center gap-2"><span class="text-brand-400">◈</span> Home screen
+                                widgets for quick habit check-off</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ══ FOOTER ════════════════════════════════════ -->
+    <footer
+        class="bg-white dark:bg-[#0b1120] py-16 border-t border-slate-200 dark:border-slate-800/80 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 text-slate-500 mb-12">
+            <div class="col-span-2">
+                <a href="index.html"
+                    class="flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white mb-6">
+                    <img src="routiq-icon.png" alt="Routiq Logo" class="w-12 h-12 object-contain" />
+                    Routiq
+                </a>
+                <p class="text-slate-500 dark:text-slate-400 max-w-sm font-inter">Master your daily routine with the
+                    most beautifully designed habit tracker and focus app.</p>
+            </div>
+            <div>
+                <h4 class="text-slate-900 dark:text-white font-semibold mb-6">Product</h4>
+                <ul class="space-y-4 text-sm font-inter">
+                    <li><a href="index.html#features" class="hover:text-brand-500 transition-colors">Features</a></li>
+                    <li><a href="index.html#" class="hover:text-brand-500 transition-colors">Download</a></li>
+                    <li><a href="releases.html" class="text-brand-500 font-medium">Changelog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-slate-900 dark:text-white font-semibold mb-6">Company</h4>
+                <ul class="space-y-4 text-sm font-inter">
+                    <li><a href="#" class="hover:text-brand-500 transition-colors">About</a></li>
+                    <li><a href="#" class="hover:text-brand-500 transition-colors">Blog</a></li>
+                    <li><a href="#" class="hover:text-brand-500 transition-colors">Contact</a></li>
+                    <li><a href="#" class="hover:text-brand-500 transition-colors">Privacy & Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-slate-500 dark:text-slate-600 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 Routiq Inc. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-brand-500 dark:hover:text-white transition-colors">Twitter</a>
+                <a href="#" class="hover:text-brand-500 dark:hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-brand-500 dark:hover:text-white transition-colors">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ══ SCRIPTS ═══════════════════════════════════ -->
+    <script>
+        // ─── Theme toggle ────────────────────────────────────────────────────
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        const mobileThemeDarkIcon = document.getElementById('mobile-theme-dark-icon');
+        const mobileThemeLightIcon = document.getElementById('mobile-theme-light-icon');
+
+        function syncThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            themeToggleDarkIcon.classList.toggle('hidden', !isDark);
+            themeToggleLightIcon.classList.toggle('hidden', isDark);
+            mobileThemeDarkIcon.classList.toggle('hidden', !isDark);
+            mobileThemeLightIcon.classList.toggle('hidden', isDark);
+        }
+        syncThemeIcons();
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            syncThemeIcons();
+        });
+        mobileThemeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            syncThemeIcons();
+        });
+
+        // ─── Navbar scroll ───────────────────────────────────────────────────
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('bg-white/90', 'backdrop-blur-xl', 'shadow-md', 'py-3', 'border-b', 'border-slate-200/80', 'dark:border-slate-800/80');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-xl', 'shadow-md', 'py-3', 'border-b', 'border-slate-200/80', 'dark:border-slate-800/80');
+                navbar.classList.add('py-4');
+            }
+        });
+
+        // ─── Mobile menu ─────────────────────────────────────────────────────
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            const hidden = mobileMenu.classList.contains('hidden');
+            if (hidden) { mobileMenu.classList.remove('hidden'); requestAnimationFrame(() => mobileMenu.classList.remove('opacity-0')); }
+            else { mobileMenu.classList.add('opacity-0'); setTimeout(() => mobileMenu.classList.add('hidden'), 300); }
+        });
+        document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+            mobileMenu.classList.add('opacity-0'); setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+        }));
+
+        // ─── Scroll reveal ───────────────────────────────────────────────────
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+        }, { threshold: 0.06 });
+
+        // ─── Filter pills ────────────────────────────────────────────────────
+        let currentFilter = 'all';
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                applyFilter();
+            });
+        });
+
+        function applyFilter() {
+            document.querySelectorAll('.release-entry').forEach(entry => {
+                const tags = entry.dataset.tags || '';
+                entry.style.display = (currentFilter === 'all' || tags.includes(currentFilter)) ? '' : 'none';
+            });
+        }
+
+        // ─── Download handler ────────────────────────────────────────────────
+        function handleDownload(btn, url, filename) {
+            btn.classList.add('dl-shimmer');
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<svg class="w-4 h-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Preparing…`;
+
+            setTimeout(() => {
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Done!`;
+
+                // Trigger real download
+                if (url) {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename || 'download';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.disabled = false;
+                    btn.classList.remove('dl-shimmer');
+                }, 1800);
+            }, 700);
+        }
+
+        // ─── Sanity API fetch ─────────────────────────────────────────────────
+        const cfg = window.SANITY_CONFIG;
+
+        /**
+         * Build the Sanity Content API URL for a GROQ query.
+         * Uses the CDN for fast global delivery.
+         */
+        function buildSanityUrl(query, params = {}) {
+            const base = `https://${cfg.projectId}.api.sanity.io/v${cfg.apiVersion}/data/query/${cfg.dataset}`;
+            const encoded = encodeURIComponent(query);
+            let url = `${base}?query=${encoded}`;
+            Object.entries(params).forEach(([k, v]) => { url += `&$${k}=${encodeURIComponent(JSON.stringify(v))}`; });
+            return url;
+        }
+
+        /**
+         * Get a Sanity asset download URL from an asset reference.
+         * e.g. file-abc123-apk  → https://cdn.sanity.io/files/PROJECT/DATASET/abc123.apk
+         */
+        function assetUrl(ref) {
+            if (!ref) return null;
+            // ref format: file-{id}-{ext}  or  image-{id}-{dims}-{ext}
+            const parts = ref.split('-');
+            const ext = parts[parts.length - 1];
+            const id = parts.slice(1, parts.length - 1).join('-');
+            return `https://cdn.sanity.io/files/${cfg.projectId}/${cfg.dataset}/${id}.${ext}`;
+        }
+
+        // ─── Color theme maps ─────────────────────────────────────────────────
+        const THEME = {
+            purple: { gradient: 'from-brand-500 to-purple-500', dot: 'bg-brand-500 ring-brand-500/20 badge-pulse', line: 'from-brand-500/50' },
+            blue: { gradient: 'from-blue-500 to-cyan-400', dot: 'bg-slate-400 dark:bg-slate-600 ring-slate-400/20 dark:ring-slate-600/20', line: 'from-slate-300 dark:from-slate-700' },
+            emerald: { gradient: 'from-emerald-500 to-teal-400', dot: 'bg-slate-400 dark:bg-slate-600 ring-slate-400/20 dark:ring-slate-600/20', line: 'from-slate-300 dark:from-slate-700' },
+            amber: { gradient: 'from-amber-400 to-orange-500', dot: 'bg-slate-300 dark:bg-slate-700 ring-slate-300/20 dark:ring-slate-700/20', line: 'from-slate-200 dark:from-slate-800' },
+        };
+
+        const TAG_LABELS = {
+            new: 'NEW', fix: 'FIX', improvement: 'IMPROVED', performance: 'PERF', breaking: 'BREAKING',
+        };
+
+        // ─── Render a single release card ────────────────────────────────────
+        function renderRelease(release, index) {
+            const theme = THEME[release.colorTheme] || THEME.purple;
+            const isLatest = release.isLatest === true;
+            const isFirst = index === 0;
+
+            // Collect all tags for filtering
+            const tags = [...new Set((release.changelog || []).map(c => c.tag))].join(' ');
+
+            // Format the date
+            const dateStr = release.releaseDate
+                ? new Date(release.releaseDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                : '';
+
+            // Build changelog items HTML
+            const changelogHTML = (release.changelog || []).map(item => `
+            <li class="flex items-start gap-3 release-item" data-tag="${item.tag}">
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full border tag-${item.tag} flex-shrink-0 mt-0.5">${TAG_LABELS[item.tag] || item.tag.toUpperCase()}</span>
+                <span class="text-slate-700 dark:text-slate-300 text-sm font-inter leading-relaxed">
+                    <strong class="text-slate-900 dark:text-white">${escHtml(item.featureTitle)}</strong> — ${escHtml(item.detail)}
+                </span>
+            </li>
+        `).join('');
+
+            // Build download bar
+            const apkUrl = assetUrl(release.apkFile?.asset?._ref);
+            const iosUrl = assetUrl(release.iosFile?.asset?._ref);
+            const srcUrl = assetUrl(release.sourceZip?.asset?._ref) || release.githubUrl || null;
+            const isLatestCard = isLatest;
+
+            const btnClass = isLatestCard ? 'dl-btn-primary' : 'dl-btn-archive';
+            const androidBtn = apkUrl
+                ? `<button onclick="handleDownload(this,'${apkUrl}','Routiq-${release.version}.apk')"
+                       class="${btnClass}${isLatestCard ? ' dl-android' : ''}">
+                   <i class="fa-brands fa-android${isLatestCard ? ' text-base' : ''}"></i> Android APK
+               </button>`
+                : `<span class="dl-btn-coming-soon"><i class="fa-brands fa-android"></i> Android <span class="cs-badge">Coming Soon</span></span>`;
+
+            const iosBtn = iosUrl
+                ? `<button onclick="handleDownload(this,'${iosUrl}','Routiq-${release.version}.ipa')"
+                       class="${btnClass}${isLatestCard ? ' dl-ios' : ''}">
+                   <i class="fa-brands fa-apple${isLatestCard ? ' text-base' : ''}"></i> iOS Build
+               </button>`
+                : `<span class="dl-btn-coming-soon"><i class="fa-brands fa-apple"></i> iOS <span class="cs-badge">Coming Soon</span></span>`;
+
+            const srcBtn = srcUrl
+                ? `<button onclick="handleDownload(this,'${srcUrl}','routiq-${release.version}-source.zip')"
+                       class="${btnClass}${isLatestCard ? ' dl-source border' : ''}">
+                   <i class="fa-brands fa-github${isLatestCard ? ' text-base' : ''}"></i> Source
+               </button>`
+                : '';
+
+            // Version header badge
+            const versionBadge = isLatest
+                ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-500 text-white badge-pulse">⚡ Latest</span>`
+                : release.colorTheme === 'amber'
+                    ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30">🚀 Initial Launch</span>`
+                    : '';
+
+            const cardHoverClass = release.colorTheme === 'amber'
+                ? 'hover:shadow-amber-500/10 hover:border-amber-300/50 dark:hover:border-amber-500/20'
+                : isLatest
+                    ? 'hover:shadow-brand-500/10 hover:border-brand-500/30'
+                    : 'hover:shadow-slate-500/10';
+
+            return `
+            <article class="release-entry reveal" data-tags="${tags}">
+                <div class="flex items-start gap-6">
+                    <!-- Timeline dot + line -->
+                    <div class="hidden md:flex flex-col items-center pt-1 flex-shrink-0">
+                        <div class="w-4 h-4 rounded-full ring-4 ${theme.dot} flex-shrink-0"></div>
+                        <div class="w-px flex-1 mt-2 bg-gradient-to-b ${theme.line} to-transparent min-h-[200px]"></div>
+                    </div>
+
+                    <div class="flex-1">
+                        <!-- Version header -->
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
+                            <div class="flex items-center gap-3">
+                                <span class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">${escHtml(release.version)}</span>
+                                ${versionBadge}
+                            </div>
+                            <span class="text-sm text-slate-400 dark:text-slate-500 font-inter sm:ml-auto">${dateStr}</span>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="release-card bg-white dark:bg-dark-lighter rounded-3xl border border-slate-200 dark:border-slate-800 p-7 shadow-lg ${cardHoverClass}">
+                            <!-- Card header -->
+                            <div class="flex items-start gap-4 mb-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${theme.gradient} flex items-center justify-center text-white text-2xl flex-shrink-0 shadow-lg">
+                                    ${release.emoji || '📦'}
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">${escHtml(release.releaseName)}</h2>
+                                    <p class="text-slate-500 dark:text-slate-400 text-sm font-inter leading-relaxed">${escHtml(release.description)}</p>
+                                </div>
+                            </div>
+
+                            <!-- Changelog list -->
+                            <ul class="space-y-4">${changelogHTML}</ul>
+
+                            <!-- Download bar -->
+                            <div class="download-bar mt-6 pt-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                                <div class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 font-inter flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                    </svg>
+                                    <span class="font-semibold ${isLatest ? 'text-slate-600 dark:text-slate-300' : 'text-slate-500 dark:text-slate-400'}">Download ${escHtml(release.version)}</span>
+                                    ${!isLatest ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700">${release.colorTheme === 'amber' ? 'Initial' : 'Archive'}</span>` : ''}
+                                </div>
+                                <div class="flex flex-wrap items-center gap-2 sm:ml-auto">
+                                    ${androidBtn}
+                                    ${iosBtn}
+                                    ${srcBtn}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        `;
+        }
+
+        // ─── HTML escape helper ───────────────────────────────────────────────
+        function escHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // ─── Main data loader ─────────────────────────────────────────────────
+        async function loadReleases() {
+            const skeleton = document.getElementById('skeleton-loader');
+            const errorEl = document.getElementById('error-state');
+            const emptyEl = document.getElementById('empty-state');
+            const listEl = document.getElementById('releases-list');
+            const teaser = document.getElementById('upcoming-teaser');
+            const heroBadge = document.getElementById('hero-badge-text');
+
+            // Show skeleton, hide others
+            skeleton.style.display = '';
+            errorEl.style.display = 'none';
+            emptyEl.style.display = 'none';
+            listEl.classList.add('hidden');
+            teaser.classList.add('hidden');
+
+            const query = `*[_type == "release"] | order(releaseDate desc) {
+            _id,
+            version,
+            releaseName,
+            releaseDate,
+            isLatest,
+            colorTheme,
+            emoji,
+            description,
+            changelog[] {
+                tag,
+                featureTitle,
+                detail
+            },
+            apkFile { asset-> { _ref, url } },
+            iosFile  { asset-> { _ref, url } },
+            sourceZip { asset-> { _ref, url } },
+            githubUrl
+        }`;
+
+            try {
+                const headers = {};
+                if (cfg.token) headers['Authorization'] = `Bearer ${cfg.token}`;
+
+                const res = await fetch(buildSanityUrl(query), { headers });
+                if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+
+                const data = await res.json();
+                const releases = data.result || [];
+
+                skeleton.style.display = 'none';
+
+                if (releases.length === 0) {
+                    emptyEl.style.display = '';
+                    return;
+                }
+
+                // Update hero badge with latest version
+                const latest = releases.find(r => r.isLatest) || releases[0];
+                if (latest) {
+                    const latestDate = latest.releaseDate
+                        ? new Date(latest.releaseDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+                        : '';
+                    heroBadge.textContent = `Latest: ${latest.version}${latestDate ? ' — ' + latestDate : ''}`;
+                }
+
+                // Render all cards
+                listEl.innerHTML = releases.map((r, i) => renderRelease(r, i)).join('');
+                listEl.classList.remove('hidden');
+                teaser.classList.remove('hidden');
+
+                // Wire up scroll-reveal
+                document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+                // Apply active filter
+                applyFilter();
+
+            } catch (err) {
+                console.error('Sanity fetch error:', err);
+                skeleton.style.display = 'none';
+                document.getElementById('error-message').textContent =
+                    `${err.message}. Make sure your Project ID and dataset are correct in window.SANITY_CONFIG.`;
+                errorEl.style.display = '';
+            }
+        }
+
+        // Boot on page load
+        loadReleases();
+    </script>
+</body>
+
+</html>
