@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How it Works | Routiq - Master Your Routine</title>
+    <meta name="description"
+        content="Learn how Routiq transforms your daily routines into engaging, visually rewarding quests through gamification and identity-based habit tracking.">
+
+    <!-- Handle Theme on Load -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            400: '#a78bfa',
+                            500: '#8b5cf6', // Indigo/Purple
+                            600: '#7c3aed',
+                            900: '#4c1d95',
+                        },
+                        dark: {
+                            DEFAULT: '#0f172a', // Slate 900
+                            lighter: '#1e293b', // Slate 800
+                        },
+                        light: {
+                            DEFAULT: '#f8fafc',
+                            surface: '#ffffff',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Instrument Sans"', 'sans-serif'],
+                        inter: ['"Instrument Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body
+    class="bg-light text-slate-800 dark:bg-dark dark:text-slate-200 antialiased overflow-x-hidden selection:bg-brand-500 selection:text-white transition-colors duration-300">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 py-4 bg-white/80 dark:bg-dark/80 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80"
+        id="navbar">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <img src="routiq-icon.png" alt="Routiq Logo" class="w-14 h-14 object-contain" />
+            </a>
+            <div class="hidden md:flex items-center gap-8 nav-links">
+                <a href="index.html#features"
+                    class="text-slate-600 dark:text-slate-300 hover:text-brand-500 dark:hover:text-brand-500 transition-colors font-medium">Features</a>
+                <a href="howitworks.html" class="text-brand-500 font-semibold border-b-2 border-brand-500 pb-0.5">How it
+                    Works</a>
+                <a href="index.html#faq"
+                    class="text-slate-600 dark:text-slate-300 hover:text-brand-500 dark:hover:text-brand-500 transition-colors font-medium">FAQ</a>
+                <a href="releases.html"
+                    class="text-slate-600 dark:text-slate-300 hover:text-brand-500 dark:hover:text-brand-500 transition-colors font-medium">Releases</a>
+            </div>
+            <div class="hidden md:flex items-center gap-4 nav-btns">
+                <a href="index.html#"
+                    class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full font-medium transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(139,92,246,0.4)]">Get
+                    Started</a>
+                <button id="theme-toggle"
+                    class="ml-4 p-2 rounded-full border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-brand-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobile-menu-btn"
+                class="md:hidden flex items-center justify-center p-2 text-slate-600 dark:text-slate-300 hover:text-brand-500 rounded-lg focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu"
+            class="md:hidden hidden bg-white dark:bg-dark-lighter border-t border-slate-200 dark:border-slate-800 absolute w-full left-0 mt-2 py-6 px-6 flex flex-col gap-4 z-40 origin-top">
+            <a href="index.html#features"
+                class="text-slate-600 dark:text-slate-300 hover:text-brand-500 text-lg font-medium mobile-link">Features</a>
+            <a href="howitworks.html" class="text-brand-500 text-lg font-semibold mobile-link">How it Works</a>
+            <a href="index.html#faq"
+                class="text-slate-600 dark:text-slate-300 hover:text-brand-500 text-lg font-medium mobile-link">FAQ</a>
+            <a href="releases.html"
+                class="text-slate-600 dark:text-slate-300 hover:text-brand-500 text-lg font-medium mobile-link">Releases</a>
+
+            <!-- Mobile Theme Toggle -->
+            <div class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-4 mt-2">
+                <span class="text-slate-600 dark:text-slate-300 font-medium">Theme</span>
+                <button id="mobile-theme-toggle"
+                    class="p-2 rounded-full border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-brand-500 bg-slate-50 dark:bg-slate-800 transition-colors">
+                    <svg id="mobile-theme-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="mobile-theme-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <a href="index.html#"
+                class="mt-4 bg-brand-500 hover:bg-brand-600 text-white px-5 py-3 rounded-full font-medium text-center transition-colors mobile-link">Get
+                Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-44 pb-24 overflow-hidden">
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-brand-500/10 via-transparent to-transparent -z-10">
+        </div>
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h1
+                class="text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
+                About <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-purple-500">Routiq</span>
+            </h1>
+            <p
+                class="text-xl md:text-2xl text-slate-600 dark:text-slate-400 font-inter leading-relaxed max-w-3xl mx-auto">
+                Routiq isn't just a habit tracker; it's a completely gamified, offline-first personal progression
+                system.
+            </p>
+            <div
+                class="mt-8 p-6 glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50">
+                <p class="text-lg text-slate-500 dark:text-slate-400 italic">
+                    Designed to transform mundane daily routines into engaging, visually rewarding quests driven by
+                    psychological momentum and streak reinforcements.
+                </p>
+            </div>
+            <p class="mt-12 text-slate-500 dark:text-slate-500 font-medium uppercase tracking-[0.2em] text-sm">
+                Here is everything you need to know about navigating and mastering Routiq.
+            </p>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="py-24 bg-slate-50 dark:bg-dark-lighter transition-colors duration-300 relative overflow-hidden">
+        <div class="absolute top-1/2 left-0 w-64 h-64 bg-brand-500/10 rounded-full blur-[100px] -z-10"></div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-50 dark:bg-brand-500/10 border border-brand-100 dark:border-brand-500/20 text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest">
+                        🎯 The Core Philosophy
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                        "Identity Over Outcomes"
+                    </h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 font-inter leading-relaxed">
+                        Routiq is built upon the ideology that true change happens when you shift your identity, not
+                        just when you hit arbitrary goals. The app visualizes this concept using <strong
+                            class="text-slate-900 dark:text-white">"Evolving Avatars"</strong> and <strong
+                            class="text-slate-900 dark:text-white">"Identity Statements."</strong>
+                    </p>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 font-inter leading-relaxed">
+                        By focusing on becoming 1% better every day (your <strong class="text-brand-500">Consistency
+                            score</strong>) rather than just checking boxes, you build an unstoppable psychological
+                        foundation.
+                    </p>
+                </div>
+                <div class="relative">
+                    <div
+                        class="aspect-square rounded-[3rem] bg-gradient-to-br from-brand-500 to-purple-600 p-1 overflow-hidden group">
+                        <div
+                            class="w-full h-full bg-slate-900 rounded-[2.8rem] flex items-center justify-center relative overflow-hidden">
+                            <!-- Background pattern -->
+                            <div
+                                class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_2px_2px,_rgba(255,255,255,0.15)_1px,_transparent_0)] bg-[length:24px_24px]">
+                            </div>
+                            <img src="routiq-icon.png" alt="Identity Concept"
+                                class="w-48 h-48 object-contain transform group-hover:scale-110 transition-transform duration-700" />
+                            <div class="absolute bottom-10 left-0 right-0 text-center">
+                                <span
+                                    class="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white font-bold tracking-wide">
+                                    I am undeniably disciplined
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-500/20 rounded-full blur-3xl -z-10">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guide Section -->
+    <section class="py-24 relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-6">
+                    🧭 Step-by-Step Guide
+                </div>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Navigating & Mastering Routiq
+                </h2>
+            </div>
+
+            <!-- Steps -->
+            <div class="space-y-12">
+                <!-- Step 1 -->
+                <div class="relative pl-12 md:pl-0">
+                    <div class="md:grid md:grid-cols-[100px_1fr] gap-8 items-start">
+                        <div class="hidden md:flex flex-col items-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-brand-500 flex items-center justify-center text-white font-black text-2xl">
+                                1</div>
+                            <div class="w-1 h-32 bg-gradient-to-b from-brand-500 to-transparent opacity-20 mt-4"></div>
+                        </div>
+                        <div
+                            class="p-8 md:p-10 bg-white dark:bg-dark-lighter rounded-[2.5rem] border border-slate-200 dark:border-slate-800 transition-all duration-300 group">
+                            <div
+                                class="md:hidden absolute left-0 top-0 w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold text-sm">
+                                1</div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                The Onboarding <span class="text-slate-400 font-normal text-lg">(Defining Who You
+                                    Are)</span>
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed font-inter text-lg">
+                                When you first open Routiq, you aren't just asked what habit you want to track. You are
+                                asked <strong class="text-slate-900 dark:text-white">who you want to become</strong>.
+                                You set your name and define a core Identity Statement (e.g., "I am an athlete" or "I am
+                                undeniably disciplined").
+                            </p>
+                            <div
+                                class="bg-brand-50 dark:bg-brand-500/5 border border-brand-100 dark:border-brand-500/20 p-5 rounded-2xl">
+                                <p class="text-brand-600 dark:text-brand-400 font-semibold flex items-center gap-2">
+                                    <i class="fa-solid fa-bolt"></i> Action:
+                                </p>
+                                <p class="text-slate-700 dark:text-slate-300 font-inter mt-1 italic">
+                                    Choose 2-3 starting habits from the curated presets provided during the intro setup,
+                                    or skip and define your own completely custom routines later.
+                                </p>
+                            </div>
+                            <!-- App Screenshot Placeholder -->
+                            <div
+                                class="mt-8 relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 aspect-[16/9] flex items-center justify-center group/img">
+                                <img src="steps/step1.png" alt="Onboarding Identity Setup"
+                                    class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                                    onload="this.classList.remove('opacity-0')">
+                                <div
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 group-hover/img:text-brand-500 transition-colors duration-300 pointer-events-none">
+                                    <i class="fa-solid fa-image text-4xl mb-2"></i>
+                                    <span class="text-sm font-medium">Onboarding Screenshot</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative pl-12 md:pl-0">
+                    <div class="md:grid md:grid-cols-[100px_1fr] gap-8 items-start">
+                        <div class="hidden md:flex flex-col items-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-white font-black text-2xl">
+                                2</div>
+                            <div class="w-1 h-32 bg-gradient-to-b from-purple-500 to-transparent opacity-20 mt-4"></div>
+                        </div>
+                        <div
+                            class="p-8 md:p-10 bg-white dark:bg-dark-lighter rounded-[2.5rem] border border-slate-200 dark:border-slate-800 transition-all duration-300 group">
+                            <div
+                                class="md:hidden absolute left-0 top-0 w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                                2</div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                Customizing Your Avatar
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed font-inter text-lg">
+                                Your profile isn't a static image—it's a reflection of your state in the journey.
+                            </p>
+                            <div
+                                class="bg-purple-50 dark:bg-purple-500/5 border border-purple-100 dark:border-purple-500/20 p-5 rounded-2xl">
+                                <p class="text-purple-600 dark:text-purple-400 font-semibold flex items-center gap-2">
+                                    <i class="fa-solid fa-bolt"></i> Action:
+                                </p>
+                                <p class="text-slate-700 dark:text-slate-300 font-inter mt-1 italic leading-relaxed">
+                                    Head to the Profile tab. Tap on your avatar image to easily swap it across an array
+                                    of aesthetic choices reflecting your current mood. <br />
+                                    <strong class="text-purple-600 dark:text-purple-400 not-italic">Note:</strong> You
+                                    also have a unique side-kick "Companion Mascot" that automatically evolves as you
+                                    level up!
+                                </p>
+                            </div>
+                            <!-- App Screenshot Placeholder -->
+                            <div
+                                class="mt-8 relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 aspect-[16/9] flex items-center justify-center group/img">
+                                <img src="steps/step2.png" alt="Customizing Profile and Mascot"
+                                    class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                                    onload="this.classList.remove('opacity-0')">
+                                <div
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 group-hover/img:text-brand-500 transition-colors duration-300 pointer-events-none">
+                                    <i class="fa-solid fa-image text-4xl mb-2"></i>
+                                    <span class="text-sm font-medium">Avatar Customization Screenshot</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative pl-12 md:pl-0">
+                    <div class="md:grid md:grid-cols-[100px_1fr] gap-8 items-start">
+                        <div class="hidden md:flex flex-col items-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white font-black text-2xl">
+                                3</div>
+                            <div class="w-1 h-32 bg-gradient-to-b from-blue-500 to-transparent opacity-20 mt-4"></div>
+                        </div>
+                        <div
+                            class="p-8 md:p-10 bg-white dark:bg-dark-lighter rounded-[2.5rem] border border-slate-200 dark:border-slate-800 transition-all duration-300 group">
+                            <div
+                                class="md:hidden absolute left-0 top-0 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                                3</div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                Managing Habits <span class="text-slate-400 font-normal text-lg">(The Dashboard)</span>
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed font-inter text-lg">
+                                The Home tab acts as your cockpit. It renders only the habits scheduled for today.
+                            </p>
+                            <div
+                                class="bg-blue-50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/20 p-5 rounded-2xl space-y-4">
+                                <div>
+                                    <p class="text-blue-600 dark:text-blue-400 font-semibold flex items-center gap-2">
+                                        <i class="fa-solid fa-hand-pointer"></i> Swiping:
+                                    </p>
+                                    <p class="text-slate-700 dark:text-slate-300 font-inter mt-1 italic">
+                                        Swiping a habit card to the right marks it as completed and fires off rewarding
+                                        haptic feedback and animations.
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-blue-600 dark:text-blue-400 font-semibold flex items-center gap-2">
+                                        <i class="fa-solid fa-chart-line"></i> Deep Insights:
+                                    </p>
+                                    <p class="text-slate-700 dark:text-slate-300 font-inter mt-1 italic">
+                                        Tap directly on a habit card to view detailed historical analytics, consistency
+                                        insights, and the complete streak calendar.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- App Screenshot Placeholder -->
+                            <div
+                                class="mt-8 relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 aspect-[16/9] flex items-center justify-center group/img">
+                                <img src="steps/step3.png" alt="Home Dashboard and Habit Interaction"
+                                    class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                                    onload="this.classList.remove('opacity-0')">
+                                <div
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 group-hover/img:text-brand-500 transition-colors duration-300 pointer-events-none">
+                                    <i class="fa-solid fa-image text-4xl mb-2"></i>
+                                    <span class="text-sm font-medium">Dashboard Screenshot</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative pl-12 md:pl-0">
+                    <div class="md:grid md:grid-cols-[100px_1fr] gap-8 items-start">
+                        <div class="hidden md:flex flex-col items-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center text-white font-black text-2xl">
+                                4</div>
+                            <div class="w-1 h-32 bg-gradient-to-b from-emerald-500 to-transparent opacity-20 mt-4">
+                            </div>
+                        </div>
+                        <div
+                            class="p-8 md:p-10 bg-white dark:bg-dark-lighter rounded-[2.5rem] border border-slate-200 dark:border-slate-800 transition-all duration-300 group">
+                            <div
+                                class="md:hidden absolute left-0 top-0 w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm">
+                                4</div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                Adding New Routines
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed font-inter text-lg">
+                                Growth requires adding new challenges over time.
+                            </p>
+                            <div
+                                class="bg-emerald-50 dark:bg-emerald-500/5 border border-emerald-100 dark:border-emerald-500/20 p-5 rounded-2xl">
+                                <p class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-2">
+                                    <i class="fa-solid fa-plus"></i> Action:
+                                </p>
+                                <p class="text-slate-700 dark:text-slate-300 font-inter mt-1 italic leading-relaxed">
+                                    Press the main <strong class="text-emerald-600">+ FAB</strong> (Floating Action
+                                    Button) or go to the Routines tab. Configure color categorization, select a custom
+                                    icon, and set specific frequencies.
+                                </p>
+                            </div>
+                            <!-- App Screenshot Placeholder -->
+                            <div
+                                class="mt-8 relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 aspect-[16/9] flex items-center justify-center group/img">
+                                <img src="steps/step4.png" alt="Creating a New Routine"
+                                    class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                                    onload="this.classList.remove('opacity-0')">
+                                <div
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 group-hover/img:text-brand-500 transition-colors duration-300 pointer-events-none">
+                                    <i class="fa-solid fa-image text-4xl mb-2"></i>
+                                    <span class="text-sm font-medium">Add Habit Screenshot</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="relative pl-12 md:pl-0">
+                    <div class="md:grid md:grid-cols-[100px_1fr] gap-8 items-start">
+                        <div class="hidden md:flex flex-col items-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center text-white font-black text-2xl">
+                                5</div>
+                            <div class="w-1 h-32 bg-gradient-to-b from-orange-500 to-transparent opacity-20 mt-4"></div>
+                        </div>
+                        <div
+                            class="p-8 md:p-10 bg-white dark:bg-dark-lighter rounded-[2.5rem] border border-slate-200 dark:border-slate-800 transition-all duration-300 group">
+                            <div
+                                class="md:hidden absolute left-0 top-0 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-sm">
+                                5</div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                Leveling Up & Earning XP
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed font-inter text-lg">
+                                Every time you complete a habit, you gain Experience Points (XP).
+                            </p>
+                            <div
+                                class="bg-orange-50 dark:bg-orange-500/5 border border-orange-100 dark:border-orange-500/20 p-5 rounded-2xl">
+                                <p class="text-orange-600 dark:text-orange-400 font-semibold flex items-center gap-2">
+                                    <i class="fa-solid fa-trophy"></i> Master Titles:
+                                </p>
+                                <p class="text-slate-700 dark:text-slate-300 font-inter mt-1 italic leading-relaxed">
+                                    Check your Profile to view your Level and Progress Bar. As you hit milestones (Level
+                                    5, 10, 20), your title evolves from <strong class="not-italic">"Beginner"</strong>
+                                    to <strong class="not-italic">"Master"</strong> to <strong
+                                        class="not-italic">"Visionary"</strong> and your Mascot permanently evolves!
+                                </p>
+                            </div>
+                            <!-- App Screenshot Placeholder -->
+                            <div
+                                class="mt-8 relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 aspect-[16/9] flex items-center justify-center group/img">
+                                <img src="steps/step5.png" alt="Leveling Up and Progress"
+                                    class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                                    onload="this.classList.remove('opacity-0')">
+                                <div
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 group-hover/img:text-brand-500 transition-colors duration-300 pointer-events-none">
+                                    <i class="fa-solid fa-image text-4xl mb-2"></i>
+                                    <span class="text-sm font-medium">Leveling System Screenshot</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="relative pl-12 md:pl-0">
+                    <div class="md:grid md:grid-cols-[100px_1fr] gap-8 items-start">
+                        <div class="hidden md:flex flex-col items-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-pink-500 flex items-center justify-center text-white font-black text-2xl">
+                                6</div>
+                            <div class="w-1 h-32 bg-gradient-to-b from-pink-500 to-transparent opacity-20 mt-4"></div>
+                        </div>
+                        <div
+                            class="p-8 md:p-10 bg-white dark:bg-dark-lighter rounded-[2.5rem] border border-slate-200 dark:border-slate-800 transition-all duration-300 group">
+                            <div
+                                class="md:hidden absolute left-0 top-0 w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold text-sm">
+                                6</div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                Focus Mode <span class="text-slate-400 font-normal text-lg">(Pomodoro
+                                    Integration)</span>
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed font-inter text-lg">
+                                For habits requiring prolonged concentration, clicking off a box isn't enough.
+                            </p>
+                            <div
+                                class="bg-pink-50 dark:bg-pink-500/5 border border-pink-100 dark:border-pink-500/20 p-5 rounded-2xl">
+                                <p class="text-pink-600 dark:text-pink-400 font-semibold flex items-center gap-2">
+                                    <i class="fa-solid fa-clock"></i> Focus Power:
+                                </p>
+                                <p class="text-slate-700 dark:text-slate-300 font-inter mt-1 italic leading-relaxed">
+                                    Go to the Focus tab. Dial in a timer using the Pomodoro 25/5 technique or any custom
+                                    duration. Completing a focused session grants <strong
+                                        class="text-pink-600 dark:text-pink-400 not-italic">Bonus XP</strong>!
+                                </p>
+                            </div>
+                            <!-- App Screenshot Placeholder -->
+                            <div
+                                class="mt-8 relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 aspect-[16/9] flex items-center justify-center group/img">
+                                <img src="steps/step6.png" alt="Focus Mode Timer"
+                                    class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                                    onload="this.classList.remove('opacity-0')">
+                                <div
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 group-hover/img:text-brand-500 transition-colors duration-300 pointer-events-none">
+                                    <i class="fa-solid fa-clock text-4xl mb-2"></i>
+                                    <span class="text-sm font-medium">Focus Mode Screenshot</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="relative pl-12 md:pl-0">
+                    <div class="md:grid md:grid-cols-[100px_1fr] gap-8 items-start">
+                        <div class="hidden md:flex flex-col items-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center text-white font-black text-2xl">
+                                7</div>
+                        </div>
+                        <div
+                            class="p-8 md:p-10 bg-white dark:bg-dark-lighter rounded-[2.5rem] border border-slate-200 dark:border-slate-800 transition-all duration-300 group">
+                            <div
+                                class="md:hidden absolute left-0 top-0 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-bold text-sm">
+                                7</div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                Protecting Your Data <span class="text-slate-400 font-normal text-lg">(Cloud
+                                    Sync)</span>
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed font-inter text-lg">
+                                Routiq is heavily privacy-focused and built "offline-first". Your data lives on your
+                                device, giving you unmatched speed and privacy.
+                            </p>
+                            <div
+                                class="bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-5 rounded-2xl space-y-4">
+                                <div>
+                                    <p class="text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-2">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Backup:
+                                    </p>
+                                    <p class="text-slate-600 dark:text-slate-400 font-inter mt-1 italic">
+                                        Go to Settings > Data & Privacy > Backup Data to securely snap a copy of your
+                                        progress to the cloud linked to your email.
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-2">
+                                        <i class="fa-solid fa-rotate"></i> Restore:
+                                    </p>
+                                    <p class="text-slate-600 dark:text-slate-400 font-inter mt-1 italic">
+                                        Got a new phone? Log in and hit Import Data in Settings to instantly rebuild
+                                        your journey.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- App Screenshot Placeholder -->
+                            <div
+                                class="mt-8 relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 aspect-[16/9] flex items-center justify-center group/img">
+                                <img src="steps/step7.png" alt="Data Privacy and Cloud Sync"
+                                    class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                                    onload="this.classList.remove('opacity-0')">
+                                <div
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 group-hover/img:text-brand-500 transition-colors duration-300 pointer-events-none">
+                                    <i class="fa-solid fa-shield-halved text-4xl mb-2"></i>
+                                    <span class="text-sm font-medium">Privacy & Sync Screenshot</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section class="py-24 bg-brand-600 dark:bg-brand-900 transition-colors duration-300 relative overflow-hidden">
+        <div
+            class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent opacity-50">
+        </div>
+        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center text-white">
+            <div class="mb-10 text-5xl">💬</div>
+            <h2 class="text-4xl font-extrabold mb-6 tracking-tight">Community & Feedback</h2>
+            <p class="text-xl text-brand-100/80 mb-12 max-w-2xl mx-auto font-inter">
+                We believe in building with our users, not just for them. If you run into a bug, or have a brilliant
+                idea for a new feature:
+            </p>
+            <div class="inline-block bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-[2rem] text-left">
+                <ol class="space-y-4 text-brand-50 font-medium list-decimal list-inside">
+                    <li>Navigate to <strong class="text-white">Settings > Support > Send Feedback</strong>.</li>
+                    <li>Choose whether you've found a <strong class="text-white">"Bug"</strong> or have a <strong
+                            class="text-white">"Suggestion"</strong>.</li>
+                </ol>
+                <div class="mt-8 pt-8 border-t border-white/10 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-brand-600 text-2xl">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <p class="text-sm text-brand-100/70 italic">
+                        Note: This goes straight into our secure Supabase database exactly where developers actively
+                        triage feature requests!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Quote -->
+    <section class="py-32 text-center relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6">
+            <div
+                class="text-slate-300 dark:text-slate-800 text-[10rem] font-serif absolute -top-10 left-1/2 -translate-x-1/2 opacity-20 pointer-events-none cursor-default select-none">
+                “</div>
+            <blockquote
+                class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white leading-tight mt-10 italic">
+                "Discipline is choosing between what you want now and what you want most."
+            </blockquote>
+            <p class="mt-12 text-xl font-bold text-brand-500 tracking-widest uppercase">
+                Start small. Stay consistent. Watch your Identity evolve.
+            </p>
+            <div class="mt-20 flex justify-center">
+                <a href="index.html#"
+                    class="bg-brand-500 hover:bg-brand-600 text-white px-10 py-5 rounded-fill font-black text-xl flex items-center gap-3 transition-all hover:scale-105 rounded-full">
+                    Join the Journey Today
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        class="bg-white dark:bg-[#0b1120] py-16 border-t border-slate-200 dark:border-slate-800/80 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 text-slate-500 mb-12">
+            <div class="col-span-2">
+                <a href="index.html"
+                    class="flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white mb-6">
+                    <img src="routiq-icon.png" alt="Routiq Logo" class="w-12 h-12 object-contain" />
+                    Routiq
+                </a>
+                <p class="text-slate-500 dark:text-slate-400 max-w-sm font-inter">Master your daily routine with the
+                    most beautifully designed habit tracker and focus app.</p>
+            </div>
+            <div>
+                <h4 class="text-slate-900 dark:text-white font-semibold mb-6">Product</h4>
+                <ul class="space-y-4 text-sm font-inter">
+                    <li><a href="index.html#features" class="hover:text-brand-500 transition-colors">Features</a></li>
+                    <li><a href="index.html#" class="hover:text-brand-500 transition-colors">Download</a></li>
+                    <li><a href="releases.html" class="hover:text-brand-500 transition-colors">Changelog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-slate-900 dark:text-white font-semibold mb-6">Company</h4>
+                <ul class="space-y-4 text-sm font-inter">
+                    <li><a href="#" class="hover:text-brand-500 transition-colors">About</a></li>
+                    <li><a href="#" class="hover:text-brand-500 transition-colors">Blog</a></li>
+                    <li><a href="#" class="hover:text-brand-500 transition-colors">Contact</a></li>
+                    <li><a href="#" class="hover:text-brand-500 transition-colors">Privacy & Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-slate-500 dark:text-slate-600 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 Routiq Inc. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-brand-500 dark:hover:text-white transition-colors">Twitter</a>
+                <a href="#" class="hover:text-brand-500 dark:hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-brand-500 dark:hover:text-white transition-colors">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Navbar scroll effects
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('py-3');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-3');
+            }
+        });
+
+        // Mobile menu toggle with GSAP
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = mobileMenu.querySelectorAll('.mobile-link, #mobile-theme-toggle, .pt-4.mt-2');
+
+        let isMenuOpen = false;
+
+        mobileMenuBtn.addEventListener('click', () => {
+            if (!isMenuOpen) {
+                // Open menu
+                mobileMenu.classList.remove('hidden');
+
+                // Animate menu container
+                gsap.fromTo(mobileMenu,
+                    {
+                        opacity: 0,
+                        y: -30,
+                        scaleY: 0.8,
+                        force3D: true
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scaleY: 1,
+                        duration: 0.6,
+                        ease: "elastic.out(1, 0.82)"
+                    }
+                );
+
+                // Stagger links entrance
+                gsap.fromTo(mobileLinks,
+                    {
+                        opacity: 0,
+                        x: -15,
+                        scale: 0.9
+                    },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        scale: 1,
+                        stagger: 0.08,
+                        duration: 0.4,
+                        ease: "back.out(1.7)",
+                        delay: 0.1
+                    }
+                );
+
+                // Bouncy icon animation
+                gsap.to(mobileMenuBtn.querySelector('svg'), {
+                    rotate: 90,
+                    scale: 0.8,
+                    duration: 0.3,
+                    ease: "back.out(2)"
+                });
+
+                isMenuOpen = true;
+            } else {
+                // Close menu
+                gsap.to(mobileMenu, {
+                    opacity: 0,
+                    y: -20,
+                    scaleY: 0.9,
+                    duration: 0.4,
+                    ease: "power2.inOut",
+                    onComplete: () => mobileMenu.classList.add('hidden')
+                });
+
+                // Reset icon
+                gsap.to(mobileMenuBtn.querySelector('svg'), {
+                    rotate: 0,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+
+                isMenuOpen = false;
+            }
+        });
+
+        // Theme toggle logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        const mobileThemeDarkIcon = document.getElementById('mobile-theme-dark-icon');
+        const mobileThemeLightIcon = document.getElementById('mobile-theme-light-icon');
+
+        function syncThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.toggle('hidden', !isDark);
+            if (themeToggleLightIcon) themeToggleLightIcon.classList.toggle('hidden', isDark);
+            if (mobileThemeDarkIcon) mobileThemeDarkIcon.classList.toggle('hidden', !isDark);
+            if (mobileThemeLightIcon) mobileThemeLightIcon.classList.toggle('hidden', isDark);
+        }
+
+        syncThemeIcons();
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            syncThemeIcons();
+        }
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+    </script>
+</body>
+
+</html>
