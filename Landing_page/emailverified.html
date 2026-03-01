@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verified | Routiq</title>
+    <meta name="description" content="Your email has been successfully verified. Welcome to Routiq!">
+
+    <!-- Handle Theme on Load -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            400: '#a78bfa',
+                            500: '#8b5cf6', // Indigo/Purple
+                            600: '#7c3aed',
+                            900: '#4c1d95',
+                        },
+                        dark: {
+                            DEFAULT: '#0f172a', // Slate 900
+                            lighter: '#1e293b', // Slate 800
+                        },
+                        light: {
+                            DEFAULT: '#f8fafc',
+                            surface: '#ffffff',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Instrument Sans"', 'sans-serif'],
+                        inter: ['"Instrument Sans"', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'check': 'check 0.8s cubic-bezier(0.65, 0, 0.45, 1) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        check: {
+                            '0%': { transform: 'scale(0)', opacity: '0' },
+                            '50%': { transform: 'scale(1.2)', opacity: '1' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .checkmark-svg {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            margin: 0 auto;
+            box-shadow: inset 0px 0px 0px #8b5cf6;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #8b5cf6;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes scale {
+
+            0%,
+            100% {
+                transform: none;
+            }
+
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 40px #8b5cf6;
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-light text-slate-800 dark:bg-dark dark:text-slate-200 antialiased overflow-hidden min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Background Gradient Orbs -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div
+            class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-500/10 blur-[120px] animate-float">
+        </div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-500/10 blur-[120px] animate-float"
+            style="animation-delay: -3s;"></div>
+    </div>
+
+    <!-- Simple Navbar -->
+    <nav class="w-full py-6 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <img src="routiq-icon.png" alt="Routiq Logo"
+                    class="w-12 h-12 object-contain transition-transform group-hover:scale-110" />
+                <span class="text-2xl font-bold text-slate-900 dark:text-white">Routiq</span>
+            </a>
+            <button id="theme-toggle"
+                class="p-2.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-brand-500 hover:bg-white dark:hover:bg-slate-800 transition-all shadow-sm">
+                <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                        fill-rule="evenodd" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-6 py-12">
+        <div class="w-full max-w-lg">
+            <div
+                class="glass-card rounded-[2.5rem] p-10 md:p-14 text-center shadow-2xl relative overflow-hidden animate-check">
+
+                <!-- Success Icon -->
+                <div class="mb-10">
+                    <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                    </svg>
+                </div>
+
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
+                    Email Verified!
+                </h1>
+
+                <p class="text-slate-600 dark:text-slate-400 text-lg mb-10 leading-relaxed font-inter">
+                    Your email has been verified. You can now go back to the <strong>Routiq app</strong> and sign in to
+                    your account.
+                </p>
+
+                <div class="flex flex-col gap-4">
+                    <a href="#"
+                        class="bg-brand-500 hover:bg-brand-600 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 group">
+                        Go to App & Sign In
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                    <a href="index.html"
+                        class="text-slate-500 dark:text-slate-400 hover:text-brand-500 dark:hover:text-brand-400 font-medium transition-colors py-2">
+                        Visit Routiq Homepage
+                    </a>
+                </div>
+
+                <!-- Decorative Elements -->
+                <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-brand-500/5 rounded-full blur-2xl"></div>
+                <div class="absolute -top-6 -left-6 w-24 h-24 bg-purple-500/5 rounded-full blur-2xl"></div>
+            </div>
+
+            <!-- Mascot Cameo -->
+            <div class="mt-12 flex items-center justify-center gap-4 opacity-60 hover:opacity-100 transition-opacity">
+                <img src="routiq-icon.png" alt="Mascot" class="w-10 h-10 object-contain animate-bounce-slow" />
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-400 italic">
+                    "Welcome to the team, legend!"
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 text-center text-slate-400 dark:text-slate-600 text-sm">
+        <p>&copy; 2026 Routiq Inc. All rights reserved.</p>
+    </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        function syncThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            themeToggleDarkIcon.classList.toggle('hidden', !isDark);
+            themeToggleLightIcon.classList.toggle('hidden', isDark);
+        }
+
+        syncThemeIcons();
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            syncThemeIcons();
+        });
+    </script>
+</body>
+
+</html>
